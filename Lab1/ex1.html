@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Download Image</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div style = "margin-bottom: 10px;">
+        <h1>Download image</h1>
+        <input type="text">
+        <button id="Download" class="btn btn-primary">Download</button>
+    </div>
+    
+
+    <Script>
+        const downloadBtn = document.getElementById('Download');
+        downloadBtn.addEventListener('click', () => {
+
+
+            const req = new XMLHttpRequest()
+            req.responseType = 'blob'
+            req.onload = () => {
+                console.log('finish download')
+
+                const data = req.response
+
+                const obj = URL.createObjectURL(data)
+                const img = document.createElement('img')
+
+                img.src = obj
+                document.body.appendChild(img)
+            }
+
+            req.open('GET', 'http://127.0.0.1:5500/Lab01/Lab%201/tdtu1.jpg')
+            req.send()
+        })
+
+    </Script>
+</body>
+</html>

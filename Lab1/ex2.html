@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Students Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">List of Students</h1>
+        <div>
+            <button id="fetchBtn" class="btn btn-primary mb-3">Fetch Students Data</button>
+            <button id="Ajaxbtn" class="btn btn-primary mb-3">Ajax Students Data</button>
+        </div>
+        <table id="studentsTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Fetch
+        document.getElementById('fetchBtn').addEventListener('click', () => {
+    fetch('http://127.0.0.1:5500/Lab01/Lab%201/students.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayStudents(data.data);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+});
+
+// Ajax
+document.getElementById('Ajaxbtn').addEventListener('click', () => {
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.onload = () => {
+        displayStudents(xhr.response.data)
+
+    }
+    xhr.open('GET', 'http://127.0.0.1:5500/Lab01/Lab%201/students.json');
+    xhr.send();
+    
+});
+
+
+function displayStudents(students) {
+    const tableBody = document.querySelector('#studentsTable tbody');
+    tableBody.innerHTML = ''; 
+
+    students.forEach(student => {
+        const row = document.createElement('tr');
+
+        
+        const idCell = document.createElement('td');
+        idCell.textContent = student.id;
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = student.name;
+
+        const ageCell = document.createElement('td');
+        ageCell.textContent = student.age;
+
+        
+        row.appendChild(idCell);
+        row.appendChild(nameCell);
+        row.appendChild(ageCell);
+
+        
+        tableBody.appendChild(row);
+    });
+}
+
+    </script>
+</body>
+</html>
